@@ -23,7 +23,7 @@ public:
 
 	int body1angle = 0;
 	int arm1angle = 0;
-	int arm2angle = 0;
+	int arm2angle = -180;
 	int leg1angle = 0;
 	int leg2angle = 0;
 

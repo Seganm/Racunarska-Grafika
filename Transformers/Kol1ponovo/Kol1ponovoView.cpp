@@ -37,12 +37,12 @@ END_MESSAGE_MAP()
 CKol1ponovoView::CKol1ponovoView() noexcept
 {
 	// TODO: add construction code here
-	img3->Load(CString("C:\\Users\\Milos Milenkovic\\Desktop\\Racunarska-Grafika\\slike\\body1.png"));
-	img1->Load(CString("C:\\Users\\Milos Milenkovic\\Desktop\\Racunarska-Grafika\\slike\\arm1.png"));
-	img2->Load(CString("C:\\Users\\Milos Milenkovic\\Desktop\\Racunarska-Grafika\\slike\\arm2.png"));
-	img4->Load(CString("C:\\Users\\Milos Milenkovic\\Desktop\\Racunarska-Grafika\\slike\\leg1.png"));
-	img5->Load(CString("C:\\Users\\Milos Milenkovic\\Desktop\\Racunarska-Grafika\\slike\\leg2.png"));
-	img6->Load(CString("C:\\Users\\Milos Milenkovic\\Desktop\\Racunarska-Grafika\\slike\\background.jpg"));
+	img3->Load(CString("C:\\Users\\MM\\Desktop\\git\\Racunarska-Grafika\\Transformers\\Kol2019-res\\body1.png"));
+	img1->Load(CString("C:\\Users\\MM\\Desktop\\git\\Racunarska-Grafika\\Transformers\\Kol2019-res\\arm1.png"));
+	img2->Load(CString("C:\\Users\\MM\\Desktop\\git\\Racunarska-Grafika\\Transformers\\Kol2019-res\\arm2.png"));
+	img4->Load(CString("C:\\Users\\MM\\Desktop\\git\\Racunarska-Grafika\\Transformers\\Kol2019-res\\leg1.png"));
+	img5->Load(CString("C:\\Users\\MM\\Desktop\\git\\Racunarska-Grafika\\Transformers\\Kol2019-res\\leg2.png"));
+	img6->Load(CString("C:\\Users\\MM\\Desktop\\git\\Racunarska-Grafika\\Transformers\\Kol2019-res\\background.jpg"));
 }
 
 CKol1ponovoView::~CKol1ponovoView()
@@ -86,9 +86,9 @@ void CKol1ponovoView::OnDraw(CDC* pDC)
 	XFORM xformOld;
 	pMemDC->GetWorldTransform(&xformOld);
 
-	DrawBackground(pMemDC, CRect(0, 0, rect.Width(), rect.Height()));
+	DrawBackground(pMemDC, rect);
 
-	//Translate(pMemDC, 300, 200, false);
+	Translate(pMemDC, img6->Width()/4, img6->Height() / 2, false);
 	DrawTransformer(pMemDC);
 
 
@@ -150,72 +150,61 @@ void CKol1ponovoView::Rotate(CDC* pDC, float angle, bool rightMultiply)
 
 void CKol1ponovoView::DrawBody1(CDC* pDC)
 {
-	XFORM xform;
-	pDC->GetWorldTransform(&xform);
-	Translate(pDC, 315, 598, false);
+	Translate(pDC, 237, 128, false);
 	Rotate(pDC, body1angle, false);
-	XFORM bodyBaseXform;
-	pDC->GetWorldTransform(&bodyBaseXform);
 	Translate(pDC, -26, -133, false);
 	DrawImgTransparent(pDC, img3);
-	pDC->SetWorldTransform(&bodyBaseXform);
-	Translate(pDC, 185, -47, false);
-	DrawArm1(pDC);
-	pDC->SetWorldTransform(&bodyBaseXform);
-	Translate(pDC, -210, -3, false);
-	DrawLeg1(pDC);
-	pDC->SetWorldTransform(&xform);
 }
 void CKol1ponovoView::DrawArm1(CDC* pDC)
 {
-	XFORM xform;
-	pDC->GetWorldTransform(&xform);
+	Translate(pDC,212 , 86, false);
 	Rotate(pDC, arm1angle, false);
-	XFORM arm1BaseXform;
-	pDC->GetWorldTransform(&arm1BaseXform);
 	Translate(pDC, -34, -31, false);
 	DrawImgTransparent(pDC, img1);
-	pDC->SetWorldTransform(&arm1BaseXform);
-	Translate(pDC, 175, 70, false);
-	DrawArm2(pDC);
-
-	pDC->SetWorldTransform(&xform);
 }
 void CKol1ponovoView::DrawArm2(CDC* pDC)
 {
+	XFORM xform;
+	pDC->GetWorldTransform(&xform);
+	Translate(pDC, 212, 86, false);
+	Rotate(pDC, arm1angle, false);
+	Translate(pDC, -34, -31, false);
+	
+	Translate(pDC, 210, 102, false);
 	Rotate(pDC, arm2angle, false);
 	Translate(pDC, -23, -61, false);
+
 	DrawImgTransparent(pDC, img2);
+	pDC->SetWorldTransform(&xform);
 }
 
 void CKol1ponovoView::DrawLeg1(CDC* pDC)
 {
-	XFORM xform;
-	pDC->GetWorldTransform(&xform);
-	Translate(pDC, 210, 3, false);
+	Translate(pDC,237, 125, false);
 	Rotate(pDC, leg1angle, false);
-	Translate(pDC, -210, -3, false);
-	XFORM leg1BaseXform;
-	pDC->GetWorldTransform(&leg1BaseXform);
-	Translate(pDC, 0, 0, false);
-	DrawLeg2(pDC);
-	pDC->SetWorldTransform(&leg1BaseXform);
 	Translate(pDC, -30, -125, false);
 	DrawImgTransparent(pDC, img4);
-	pDC->SetWorldTransform(&xform);
 }
 
 void CKol1ponovoView::DrawLeg2(CDC* pDC)
 {
+	XFORM xform;
+	pDC->GetWorldTransform(&xform);
+	Translate(pDC, 237, 125, false);
 	Rotate(pDC, leg2angle, false);
 	Translate(pDC, -35, -60, false);
 	DrawImgTransparent(pDC, img5);
+	pDC->SetWorldTransform(&xform);
 }
 
 
 void CKol1ponovoView::DrawTransformer(CDC* pDC)
 {
+	DrawLeg2(pDC);
+	DrawLeg1(pDC);
 	DrawBody1(pDC);
+	DrawArm2(pDC);
+	DrawArm1(pDC);
 }
 
 
@@ -278,7 +267,7 @@ void CKol1ponovoView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		leg1angle += 10;
 	if (nChar == 'H' || nChar == 'h')
 		leg1angle -= 10;
-
+	
 	Invalidate();
 
 	CView::OnKeyDown(nChar, nRepCnt, nFlags);
